@@ -12,6 +12,7 @@ import osqueryTableInterface from '../../../interfaces/osquery_table';
 import { osqueryTableNames } from '../../../utilities/osquery_tables';
 import SecondarySidePanelContainer from '../SecondarySidePanelContainer';
 import Dropdown from '../../../components/forms/fields/Dropdown';
+import Icon from 'components/Icon';
 
 const baseClass = 'query-side-panel';
 
@@ -74,7 +75,7 @@ class QuerySidePanel extends Component {
           <span className={`${baseClass}__column-name`}>{column.name}</span>
           <div>
             <span>{displayTypeForDataType(column.type)}</span>
-            <i className={`${baseClass}__help kolidecon-help`} title={column.description} />
+            <Icon iconName="help" className={`${baseClass}__help`} title={column.description} />
           </div>
         </div>
       );

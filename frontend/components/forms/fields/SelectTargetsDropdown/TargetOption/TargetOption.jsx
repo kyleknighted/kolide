@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 
+import Icon from 'components/Icon';
 import targetInterface from 'interfaces/target';
 
 const baseClass = 'target-option';
@@ -63,8 +64,8 @@ class TargetOption extends Component {
           <i className="kolidecon-add-button" />
         </button>
         <button className={`button button--unstyled ${baseClass}__target-content`} onClick={onMoreInfoClick(target)}>
-          {targetType === 'hosts' && <i className={`${baseClass}__icon ${hostPlatformIconClass()}`} />}
-          {targetType === 'labels' && <i className={`${baseClass}__icon kolidecon-label`} />}
+          {targetType === 'hosts' && <Icon iconName={hostPlatformIconClass()} className={`${baseClass}__icon`} />}
+          {targetType === 'labels' && <Icon iconName="label" className={`${baseClass}__icon`} />}
           <span className={`${baseClass}__label-label`}>{displayText}</span>
           <span className={`${baseClass}__delimeter`}>&bull;</span>
           {renderTargetDetail()}

@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import hostHelpers from 'components/hosts/HostDetails/helpers';
 import ShadowBox from 'components/ShadowBox';
 import ShadowBoxInput from 'components/forms/fields/ShadowBoxInput';
+import Icon from 'components/Icon';
 import targetInterface from 'interfaces/target';
 
 const baseClass = 'target-details';
@@ -71,7 +72,7 @@ class TargetDetails extends Component {
         </ShadowBox>
         <div className={`${hostBaseClass}__labels-wrapper`}>
           <div className={`${hostBaseClass}__labels-wrapper--header`}>
-            <i className="kolidecon-label" />
+            <Icon iconName="label" />
             <span>Labels</span>
           </div>
         </div>
