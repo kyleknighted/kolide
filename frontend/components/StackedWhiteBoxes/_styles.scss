@@ -51,21 +51,28 @@
   }
 
   &__back {
+    @include transform(translateZ(0));
     text-align: right;
     width: 100%;
 
     &-link {
       @include transition(color 150ms ease-in-out);
+      @include size(30px);
       color: $text-light;
       text-decoration: none;
       position: absolute;
-      top: 30px;
-      right: 30px;
+      top: 0;
+      right: 0;
       cursor: pointer;
-      font-weight: bold;
+      font-size: 30.5px;
 
       &:hover {
         color: $brand-light;
+      }
+
+      .kolidecon {
+        vertical-align: super;
+        line-height: 30px;
       }
     }
   }
