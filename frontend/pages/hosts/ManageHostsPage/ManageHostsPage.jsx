@@ -3,7 +3,7 @@ import AceEditor from 'react-ace';
 import { connect } from 'react-redux';
 import FileSaver from 'file-saver';
 import { push } from 'react-router-redux';
-import { isEqual, orderBy, slice, sortBy } from 'lodash';
+import { orderBy, slice, sortBy } from 'lodash';
 
 import Kolide from 'kolide';
 import AddHostModal from 'components/hosts/AddHostModal';
@@ -67,7 +67,7 @@ export class ManageHostsPage extends Component {
     this.state = {
       allHostCount: 0,
       currentPaginationPage: 0,
-      hostsLoading: false,
+      hostsLoading: true,
       hostsPerPage: 20,
       isEditLabel: false,
       labelQueryText: '',
@@ -93,17 +93,10 @@ export class ManageHostsPage extends Component {
     const { getEntities } = this;
 
     this.interval = global.window.setInterval(getEntities, 5000);
-
-    return false;
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    if (isEqual(nextProps, this.props) && isEqual(nextState, this.state)) {
-      return false;
-    }
-
-    this.buildSortedHosts(nextProps, nextState);
-    return true;
+  componentWillReceiveProps(nextProps) {
+    this.buildSortedHosts(nextProps);
   }
 
   componentWillUnmount () {
@@ -112,8 +105,6 @@ export class ManageHostsPage extends Component {
 
       this.interval = null;
     }
-
-    return false;
   }
 
   onAddLabelClick = (evt) => {
@@ -194,7 +185,10 @@ export class ManageHostsPage extends Component {
       const { slug } = selectedLabel;
       const nextLocation = slug === 'all-hosts' ? MANAGE_HOSTS : `${MANAGE_HOSTS}/${slug}`;
 
-      dispatch(push(nextLocation));
+      // Use setTimeout to ensure the setState below is able to set the loading
+      // status before the page is changed (prevents the page from showing
+      // stale hosts as the new paging is generated).
+      setTimeout(() => { dispatch(push(nextLocation)); }, 0);
 
       this.setState({
         currentPaginationPage: 0,
@@ -300,10 +294,11 @@ export class ManageHostsPage extends Component {
     return false;
   }
 
-  buildSortedHosts = (nextProps, nextState) => {
+  buildSortedHosts = (nextProps) => {
     const { filterAllHosts, sortHosts } = this;
-    const { currentPaginationPage, hostsPerPage } = nextState || this.state;
-    const { hosts, selectedLabel } = this.props;
+    const { currentPaginationPage, hostsPerPage } = this.state;
+    const props = nextProps || this.props;
+    const { hosts, selectedLabel } = props;
 
     const sortedHosts = sortHosts(filterAllHosts(hosts, selectedLabel));
 
